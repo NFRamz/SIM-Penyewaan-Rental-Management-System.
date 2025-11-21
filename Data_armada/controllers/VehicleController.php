@@ -9,8 +9,10 @@ class VehicleController {
     }
 
     public function index() {
-        $vehicles   = $this->model->getAll();
+        $keyword    = isset($_GET['search']) ? $_GET['search'] : null;
+        $vehicles   = $this->model->getAll($keyword);
         $view       = 'Data_armada/views/list.php'; 
+        
         require 'views/layout.php';
     }
 

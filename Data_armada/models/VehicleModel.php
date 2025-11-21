@@ -8,7 +8,8 @@ class VehicleModel {
         $this->db = new Database();
     }
 
-    public function getAll() {
+        /* 
+        public function getAll() {
         $result = $this->db->conn->query("SELECT * FROM kendaraan");
         $data   = [];
         while ($row = $result->fetch_assoc()) {
@@ -16,6 +17,27 @@ class VehicleModel {
         }
         return $data;
     }
+    */
+    public function getAll($keyword = null) {
+        if ($keyword) {
+            $sql    = "SELECT * FROM kendaraan WHERE nama_kendaraan LIKE ? OR jenis LIKE ? OR tahun LIKE ?";
+            $stmt   = $this->db->conn->prepare($sql);
+            $param  = "%$keyword%";
+            $stmt->bind_param("sss", $param, $param, $param);
+            $stmt->execute();
+            $result = $stmt->get_result();
+        } else {
+            $result = $this->db->conn->query("SELECT * FROM kendaraan");
+        }
+
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+
+
 
     public function getById($id) {
         $stmt = $this->db->conn->prepare("SELECT * FROM kendaraan WHERE id = ?");

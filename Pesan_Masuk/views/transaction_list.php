@@ -1,5 +1,17 @@
 <h2>Daftar Sewa Masuk (Transaksi)</h2>
 
+<div style="margin-bottom: 20px;">
+    <form action="index.php" method="GET" style="display: flex; gap: 10px; flex-direction: row;">
+        <input  type="hidden" name="page"   value="pesan_masuk">
+        <input  type="text"   name="search" placeholder="Cari Penyewa / Mobil / Plat..." value="<?= isset($_GET['search']) ? $_GET['search'] : '' ?>" style="width: 300px;">
+        <button type="submit" class="btn btn-primary">Cari</button>
+        
+        <?php if(isset($_GET['search'])): ?>
+            <a href="index.php?page=pesan_masuk" class="btn btn-danger" style="text-decoration:none;">Reset</a>
+        <?php endif; ?>
+    </form>
+</div>
+
 <div class="table-responsive">
     <table cellspacing="0">
         <thead>

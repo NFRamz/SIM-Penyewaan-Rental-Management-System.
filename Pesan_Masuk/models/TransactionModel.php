@@ -8,10 +8,24 @@ class TransactionModel {
         $this->db = new Database();
     }
 
-    public function getAll() {
-        $sql    = "SELECT t.*, k.nama_kendaraan, k.nomor_plat FROM transaksi t JOIN kendaraan k ON t.id_kendaraan = k.id ORDER BY t.created_at DESC";
-        $result = $this->db->conn->query($sql);
-        $data   = [];
+    public function getAll($keyword = null) {
+        $sql = "SELECT t.*, k.nama_kendaraan, k.nomor_plat FROM transaksi t JOIN kendaraan k ON t.id_kendaraan = k.id ";
+        //$sql  = "SELECT t.*, k.nama_kendaraan, k.nomor_plat FROM transaksi t JOIN kendaraan k ON t.id_kendaraan = k.id ORDER BY t.created_at DESC";
+        
+        if ($keyword) {
+            $sql .= " WHERE t.nama_penyewa LIKE ? OR k.nama_kendaraan LIKE ? OR k.nomor_plat LIKE ?";
+            $sql .= " ORDER BY t.created_at DESC";
+            $stmt   = $this->db->conn->prepare($sql);
+            $param  = "%$keyword%";
+            $stmt->bind_param("sss", $param, $param, $param);
+            $stmt->execute();
+            $result = $stmt->get_result();
+        } else {
+            $sql .= " ORDER BY t.created_at DESC";
+            $result = $this->db->conn->query($sql);
+        }
+
+        $data = [];
         while ($row = $result->fetch_assoc()) {
             $data[] = $row;
         }

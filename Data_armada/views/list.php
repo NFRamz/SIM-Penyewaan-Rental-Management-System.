@@ -1,5 +1,17 @@
 <h2>Data Armada Kendaraan</h2>
 
+<div style="margin-bottom: 20px;">
+    <form action="index.php" method="GET" style="display: flex; gap: 10px; flex-direction: row;">
+        <input  type="hidden" name ="page" value="armada">
+        <input  type="text"   name ="search" placeholder="Cari Nama / Jenis / Tahun..." value="<?= isset($_GET['search']) ? $_GET['search'] : '' ?>" style="width: 300px;">
+        <button type="submit" class="btn btn-primary">Cari</button>
+        <?php if(isset($_GET['search'])): ?>
+            <a href="index.php?page=armada" class="btn btn-danger" style="text-decoration:none;">Reset</a>
+        <?php endif; ?>
+    </form>
+</div>
+
+
 <div style="margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
     <span style="color: #b9b9c3;">Total Kendaraan: <?= count($vehicles) ?> unit</span>
     <a href="index.php?page=armada&action=create" class="btn btn-primary">+ Tambah Unit Baru</a>

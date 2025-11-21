@@ -12,8 +12,10 @@ class TransactionController {
     }
 
     public function index() {
-        $messages   = $this->model->getAll(); 
+        $keyword    = isset($_GET['search']) ? $_GET['search'] : null;
+        $messages   = $this->model->getAll($keyword); 
         $view       = 'Pesan_Masuk/views/transaction_list.php';
+        
         require 'views/layout.php';
     }
 
